@@ -9,15 +9,11 @@ const store = configureStore({
 });
 
 store.subscribe(() => {
-  saveState({ jwt: store.getState().user.jwt }, JWT_PERSISTANT_STATE);
+  saveState({ jwt: store.getState()?.user?.jwt }, JWT_PERSISTANT_STATE);
 });
 
-export default store;
+// export default store;
 
-// store.getState();
-// store.dispatch
-// module.exports = {
-//   store,
-//   RootState: store.getState(),
-//   AppDispatch: store.dispatch,
-// };
+
+export default store
+

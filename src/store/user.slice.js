@@ -4,17 +4,19 @@ import axios, { AxiosError } from "axios"
 import { PREFIX } from "../helpers/Api"
 
 export const JWT_PERSISTANT_STATE = "userData"
+// const [token, setToken] = useState("")
 
 const initialState = {
-  jwt: loadState(JWT_PERSISTANT_STATE)?.jwt ?? null
+  jwt: loadState(JWT_PERSISTANT_STATE)?.jwt ?? "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFsaWFiZEBnbWFpbC5jb20iLCJpYXQiOjE3MTEwMjE4Njd9.I90loWN0agCWAFnasNg76gXrgPCTFdn0zZ_avtkNGTU"
 }
 
 export const login = createAsyncThunk("user/login", async params => {
   try {
-    const { data } = await axios.post(`${PREFIX}/auth/login`, {
+    const { data } = await axios.post(`${PREFIX}/user/login`, {
       email: params.email,
       password: params.password
     })
+    console.log(data);
     return data
   } catch (e) {
     if (e instanceof AxiosError) {
@@ -23,9 +25,9 @@ export const login = createAsyncThunk("user/login", async params => {
   }
 })
 
-export const register = createAsyncThunk("user/register", async params => {
+export const register = createAsyncThunk("/user/register", async params => {
   try {
-    const { data } = await axios.post(`${PREFIX}/auth/register`, {
+    const { data } = await axios.post(`${PREFIX}/user/register`, {
       email: params.email,
       password: params.password,
       name: params.name
@@ -39,7 +41,7 @@ export const register = createAsyncThunk("user/register", async params => {
 })
 
 export const getProfile = createAsyncThunk(
-  "task/get",
+  "/task/get",
   async (_, thunkApi) => {
     const jwt = thunkApi.getState().user.jwt
     const { data } = await axios.get(`${PREFIX}/task/get`, {
@@ -50,6 +52,7 @@ export const getProfile = createAsyncThunk(
     return data
   }
 )
+console.log(initialState);
 
 export const userSlice = createSlice({
   name: "user",
